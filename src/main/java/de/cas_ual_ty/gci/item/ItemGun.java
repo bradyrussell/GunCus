@@ -224,8 +224,8 @@ public class ItemGun extends ItemGCI
 			
 			bullet.shoot(entityPlayer, pitch, yaw, 0F, this.getBulletVelocity(itemStack, entityPlayer), 1.0F);
 			
-                        Minecraft.getMinecraft().addScheduledTask(() -> { // should fix concurrent modification exception
-                                 entityPlayer.world.spawnEntity(bullet);
+                        Objects.requireNonNull(entityPlayer.getServer()).addScheduledTask(() -> { // should fix concurrent modification exception
+                              entityPlayer.world.spawnEntity(bullet);
                         });
 			
 			this.setShootTime(itemStack, this.fireRate);
