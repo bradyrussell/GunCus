@@ -223,7 +223,10 @@ public class ItemGun extends ItemGCI
 			yaw += (inaccuracy * this.<Barrel>getAttachmentCalled(itemStack, EnumAttachmentType.BARREL.getSlot()).getHorizontalSpreadModifier() / 10F) * (2F * GunCus.RANDOM.nextFloat() - 1F) * 15F;
 			
 			bullet.shoot(entityPlayer, pitch, yaw, 0F, this.getBulletVelocity(itemStack, entityPlayer), 1.0F);
-			entityPlayer.world.spawnEntity(bullet);
+			
+                        Minecraft.getMinecraft().addScheduledTask(() -> { // should fix concurrent modification exception
+                                 entityPlayer.world.spawnEntity(bullet);
+                        });
 			
 			this.setShootTime(itemStack, this.fireRate);
 			
